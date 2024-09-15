@@ -1,0 +1,34 @@
+import random
+
+options = ["rock", "paper", "scissor"]
+
+def another_game():
+
+    Cpu = random.choices(options)[0]
+    while True:
+        Player = input("rock, paper or scissor: ")
+        if Player in options:
+            break
+        else:
+            print("rock, paper or scissor: ")
+
+    print(f"Player: {Player}")
+    print(f"Cpu: {Cpu}")
+
+    if Player == Cpu:
+        print("Draw")
+    elif (Player == "rock" and Cpu == "scissors") or \
+         (Player == "scissors" and Cpu == "paper") or \
+         (Player == "paper" and Cpu == "rock"):
+        print("You WIN!")
+    else:
+        print("Cpu WINS!")
+        print("GAME OVER!")
+
+while True:
+    another_game()
+    one_more = input("Play again? (yes/no): ")
+    if one_more != "yes":
+        break
+
+print("Have a nice day!")
