@@ -1,0 +1,107 @@
+class Item:
+    def __init__(self, title, author, year):
+        self._title = title
+        self._author = author
+        self._year = year
+
+class Book(Item):
+    def __init__(self, title, author, year, pages):
+        super().__init__(title, author, year)
+        self._pages = pages
+
+    def display_info(self):
+        print(f"Book: {self._title}, by: {self._author}, Year: {self._year}, Pages: {self._pages}")
+
+class Magazine(Item):
+    def __init__(self, title, author, year, issue):
+        super().__init__(title, author, year)
+        self._issue = issue
+
+    def display_info(self):
+        print(f"Magazine: {self._title}, by: {self._author}, Year: {self._year}, Issue: {self._issue}")
+
+class LibraryUser:
+    def __init__(self, name):
+        self.name = name
+        self.borrowed_items = []
+
+    def borrow(self, item):
+        self.borrowed_items.append(item)
+        print(f"{self.name} borrowed {item._title}")
+
+    def return_item(self, item):
+        self.borrowed_items.remove(item)
+        print(f"{self.name} returned {item._title}")
+
+    def list_borrowed_items(self):
+        print(f"{self.name} has borrowed the following items:")
+        for item in self.borrowed_items:
+            item.display_info()
+
+class Library:
+    def __init__(self):
+        self.items = []
+        self.users = []
+
+    def add_item(self, item):
+        self.items.append(item)
+        print(f"Item: {item._title} now in library")
+
+    def remove_item(self, item):
+        self.items.remove(item)
+        print(f"{item._title} is now removed from library")
+
+    def register_user(self, user):
+        self.users.append(user)
+        print(f"This user: {user.name} is now registered")
+
+    def borrow_item(self, user, item):
+        if item in self.items:
+            self.items.remove(item)
+            user.borrow(item)
+        else:
+            print(f"{item.title} is not in library")
+
+    def return_item(self, user, item):
+        if item in user.borrowed_items:
+            user.return_item(item)
+            self.items.append(item)
+        else:
+            print(f"{user.name} does not have {item.title}")
+
+    def list_items(self):
+        print("Library has the following items:")
+        for item in self.items:
+            item.display_info()
+
+    def list_available_items(self):
+        print("Items available/not borrowed:")
+        for item in self.items:
+            item.display_info()
+
+if __name__ == "__main__":
+    library = Library()
+
+    book1 = Book("Zlatan: Jag är Zlatan", "David Lagercrantz", 2011, 283)
+    book2 = Book("Monsters inc", "Disney", 2001, 10)
+    magazine1 = Magazine("National Geographic", "NGS", 1888, 1)
+
+    library.add_item(book1)
+    library.add_item(book2)
+    library.add_item(magazine1)
+    print("")
+    user1 = LibraryUser("Ilir")
+    library.register_user(user1)
+    
+    library.borrow_item(user1, book1)
+    library.borrow_item(user1, book2)
+    library.borrow_item(user1, magazine1)
+    print("")
+    user1.list_borrowed_items()
+    print("")
+    library.return_item(user1, book1)
+    library.return_item(user1, book2)
+    print("")
+    library.list_items()
+    print("")
+    library.list_available_items()
